@@ -127,4 +127,14 @@ Set Rules for Edge Cases
       server server3 127.0.0.1:8002
 
 
+I’ve separated those addresses with a comma. I could also have written a second bind line, like this:
+
+    frontend myfrontend
+      bind 127.0.0.1:80
+      bind 127.0.0.1:81
+      use_backend special if { dst_port 81 }
+      default_backend myservers
+
+
+
     
