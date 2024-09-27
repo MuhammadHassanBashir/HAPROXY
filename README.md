@@ -64,7 +64,7 @@
     
     backend http_back  
     mode http
-    server localhost:8000 check
+    server blog1 localhost:8000 check
      
                             ---------------------> configuration for backend server                       
     listen
