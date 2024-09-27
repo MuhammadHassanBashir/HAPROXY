@@ -11,6 +11,12 @@
     6- XSS (Cross site scripting) prevention
     7- CORS
     8- Security Headers implementation as per OWASP
+
+## Domain point of vm
+
+    1- first create HA proxy vm on cloud and enable http and https port on vm
+    2- then get vm public ip and go to the project where your domain is hosted. then go to **cloud dns** in case of google cloud and point domain against server ip.. like domain is **haproxy.disearch.ai** on ip **vm ip address**
+    3- then install certificate on vm from **letencrypt**. **Remember if your have done the domain mapping step then letencrypt with go to certificate against that set domain**, like this **haproxy.disearch.ai** 
   
 ## Installation on vm server
 
