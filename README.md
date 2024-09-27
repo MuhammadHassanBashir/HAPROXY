@@ -28,7 +28,7 @@
     All settings are defined in the file **/etc/haproxy/haproxy.cfg** (or /etc/hapee-{version}/hapee-lb.cfg for HAProxy Enterprise). If you are using Docker, then this file is mounted as a volume into the container at the path **/usr/local/etc/haproxy/haproxy.cfg.**
 
 
-## tested HA Proxy .cfg file
+## tested HA Proxy .cfg file written by Areez
     
     global
     	log /dev/log	local0
