@@ -16,7 +16,7 @@
 
     1- first create HA proxy vm on cloud and enable http and https port on vm
     2- then get vm public ip and go to the project where your domain is hosted. then go to **cloud dns** in case of google cloud and point domain against server ip.. like domain is **haproxy.disearch.ai** on ip **vm ip address**
-    3- then install certificate on vm from **letencrypt**. **Remember if your have done the domain mapping step then letencrypt with go to certificate against that set domain**, like this **haproxy.disearch.ai** 
+    3- then install certificate on vm from **letsencrypt**. **Remember if your have done the domain mapping step then letencrypt with go to certificate against that set domain**, like this **haproxy.disearch.ai**. By doing this step letsencrypt will issue a certificate against your domain and send it to your vm. When you send traffic by using this domain from browser, it will first go to where, where domain is hosted and from where to your vm and get certificate from vm..
   
 ## now Install ha proxy on vm server
 
