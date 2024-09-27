@@ -84,7 +84,46 @@ Simple installation steps and basic testing..
         
         backend myservers
           server server1 127.0.0.1:8000
-                
+
+        now you will see the response from backend. Example like this...
+
+        $ curl 127.0.0.1:80
+        <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+        <html>
+        ...
+        </html>
+
+## Loadbalancing
+
+HP Proxy loadbalancing traffic to backend server. 
+
+    configure this file  **/etc/haproxy/haproxy.cfg**  
+             
+    frontend myfrontend
+      bind 127.0.0.1:80
+      default_backend myservers
+    
+    backend myservers
+      server server1 127.0.0.1:8000
+      server server2 127.0.0.1:8001
+      server server3 127.0.0.1:8002   
+
+## ACL 
+
+        Set Rules for Edge Cases
+    Suppose you wanted to send all requests that arrive on port 80 to servers 1 and 2, but if a request arrives at port 81, it should go to server 3. Consider the following configuration that achieves that:
+        
+    frontend myfrontend
+      bind 127.0.0.1:80,127.0.0.1:81
+      use_backend special if { dst_port 81 }
+      default_backend myservers
+    
+    backend myservers
+      server server1 127.0.0.1:8000
+      server server2 127.0.0.1:8001
+    
+    backend special
+      server server3 127.0.0.1:8002
 
 
     
