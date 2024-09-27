@@ -30,7 +30,7 @@
 
 ## tested HA Proxy .cfg file written by Areez
     
-    global
+    global                                                                                          ----> haproxy global section
     	log /dev/log	local0
     	log /dev/log	local1 notice
     	chroot /var/lib/haproxy
@@ -52,7 +52,7 @@
             ssl-default-bind-ciphersuites TLS_AES_128_GCM_SHA256:TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256
             ssl-default-bind-options ssl-min-ver TLSv1.2 no-tls-tickets
     
-    defaults
+    defaults                                                                                   ----> haproxy default section
     	log	global
     	mode	http
     	option	httplog
@@ -68,7 +68,7 @@
     	errorfile 503 /etc/haproxy/errors/503.http
     	errorfile 504 /etc/haproxy/errors/504.http
     
-    frontend https_front                                                                      ---> giving fronted name here **https_front**       
+    frontend https_front                                                                      ---> haproxy frontend section, giving fronted name here **https_front**       
         bind *:443 ssl crt /etc/ssl/private/haproxy.disearch.ai.pem alpn h2,http/1.1          ---->fronted is listen on all ip with 443 port, give ssl certificate path and enable http2 protocol
         mode http                                                                             -----> we have 2 mode http/tcp   use to open traffic packet header and get multiple information like URL, and use this information for traffic routing.
         option forwardfor                                                                     ---> This option is used to add the X-Forwarded-For header to HTTP requests. The X-Forwarded-For header is used to track the original client IP address when the request passes through a proxy (like HAProxy).
@@ -130,9 +130,13 @@
         http-request deny if !allowed_host1 !allowed_host2
 
     
-    backend web_backend                                          --> giving backend name here **web_backend**
+    backend web_backend                                          --> haproxy backend section, giving backend name here **web_backend**
         mode http
         server local_server localhost:8000 check                  ------> testing nginx container is running locally on 8000 port 
+
+## Testing
+   
+    Create an NGINX container with any server port on the server where HAProxy is running. Then test the HAProxy configuration. A successful configuration will display the NGINX home page.
 
 # Haproxy configuration for my scenerio 
 
@@ -176,9 +180,7 @@
                             ---------------------> configuration for backend server                       
     listen
 
-## Testing
-   
-    Create an NGINX container with any server port on the server where HAProxy is running. Then test the HAProxy configuration. A successful configuration will display the NGINX home page.
+
 
 ## Command to verify haproxy file is correct or not..
 
