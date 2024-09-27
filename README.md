@@ -47,7 +47,7 @@
       tcp-request content reject if too_many_conns
     
       # Security Headers (OWASP)
-      http-response set-header X-Frame-Options "DENY"            -------------------->> iframe prevention section           
+      http-response set-header X-Frame-Options "DENY"            -------------------->> iframe prevention section, you can verify this my saying chatgpy to create ifram againt your domain. Once run you will see the result           
       http-response set-header X-Content-Type-Options "nosniff"
       http-response set-header Strict-Transport-Security "max-age=31536000; includeSubDomains"
       http-response set-header Referrer-Policy "no-referrer"
