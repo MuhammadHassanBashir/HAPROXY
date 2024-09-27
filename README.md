@@ -38,6 +38,7 @@
     frontend http_front
       bind *:443 ssl crt /etc/haproxy/certs/ alpn h2,http/1.1           -------> give here your SSL certificate path, and by using alpn h2,http/1.1 haproxy also support to http2 protocol
       mode http
+      default backend http_back
     
       # DDoS & Rate Limiting                                          -------------->> DDos attack prevention section
       stick-table type ip size 1m expire 10s store http_req_rate(10s),conn_cur
@@ -61,7 +62,10 @@
       http-response set-header Access-Control-Allow-Methods "GET, POST, OPTIONS"
       http-response set-header Access-Control-Allow-Headers "Content-Type"
     
-    backend http_back   
+    backend http_back  
+    mode http
+    server localhost:8000 check
+     
                             ---------------------> configuration for backend server                       
     listen
 
