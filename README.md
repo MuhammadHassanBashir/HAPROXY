@@ -209,3 +209,16 @@ The table below lists examples of other ACLs that you might use to route traffic
     
     This paves the way to adding an HSTS header, which tells a person’s browser to use HTTPS from the start the next time they visit your site. You can add an HSTS header by following the steps described in our blog post, HAProxy and HTTP Strict Transport Security (HSTS) Header in HTTP Redirects.
         
+
+A typical load balancer configuration file looks like the following:
+
+    global
+        # process settings
+    defaults
+        # default values for sections below
+    frontend
+        # server the clients connect to
+    backend
+        # servers for fulfilling client requests
+    listen
+        # complete proxy definition
