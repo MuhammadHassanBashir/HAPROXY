@@ -134,6 +134,11 @@
         mode http
         server local_server localhost:8000 check                  ------> testing nginx container is running locally on 8000 port 
 
+
+## Command to verify haproxy file is correct or not..
+
+    sudo haproxy -c -f /etc/haproxy/haproxy.conf
+
 ## Testing
    
     Create an NGINX container on 8000 port on the server where HAProxy is running. Then test the HAProxy configuration. A successful configuration will display the NGINX home page.
@@ -179,12 +184,6 @@
      
                             ---------------------> configuration for backend server                       
     listen
-
-
-
-## Command to verify haproxy file is correct or not..
-
-    sudo haproxy -c -f /etc/haproxy/haproxy.conf
 
 
 ## HA Proxy features
