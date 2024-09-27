@@ -73,7 +73,7 @@
         mode http                                                                             -----> we have 2 mode http/tcp   use to open traffic packet header and get multiple information like URL, and use this information for traffic routing.
         option forwardfor                                                                     ---> This option is used to add the X-Forwarded-For header to HTTP requests. The X-Forwarded-For header is used to track the original client IP address when the request passes through a proxy (like HAProxy).
         http-request set-header X-Forwarded-Proto: https                                      ----> This directive sets the X-Forwarded-Proto header in the request. The X-Forwarded-Proto header is used to tell the backend server whether the original client used HTTP or HTTPS protocol when making the request.
-        default_backend web_backend
+        default_backend web_backend                                                           ----> referring fronted to backend
     
         # DDoS & Rate Limiting
         # Allows HAProxy to track statistics (like request rates, current connections, etc.) per IP address. This is useful for applying rate limits or connection limits.
