@@ -136,7 +136,7 @@
 
 ## Testing
    
-    Create an NGINX container with any server port on the server where HAProxy is running. Then test the HAProxy configuration. A successful configuration will display the NGINX home page.
+    Create an NGINX container on 8000 port on the server where HAProxy is running. Then test the HAProxy configuration. A successful configuration will display the NGINX home page.
 
 # Haproxy configuration for my scenerio 
 
