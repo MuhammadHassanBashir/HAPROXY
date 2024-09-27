@@ -165,6 +165,16 @@ The table below lists examples of other ACLs that you might use to route traffic
     
     Route requests that have a URL parameter named region that is set to europe.
 
+## Enabling SSL with HAProxy
+    
+    HAProxy version 1.5, which was released in 2016, introduced the ability to handle SSL encryption and decryption without any extra tools like Stunnel or Pound. Enable it by editing your HAProxy configuration file, adding the ssl and crt parameters to a bind line in a frontend section. Here’s an example:
+        
+        frontend www.mysite.com
+            bind 10.0.0.3:80
+            bind 10.0.0.3:443 ssl crt /etc/ssl/certs/mysite.pem
+            default_backend web_servers
+    
+            The ssl parameter enables SSL termination for this listener. The crt parameter identifies the location of the PEM-formatted SSL certificate. This certificate should contain both the public certificate and the private key. That’s it for turning on this feature. Once traffic is decrypted it can be inspected and modified by HAProxy, such as to alter HTTP headers, route based on the URL path or Host, and read cookies. The messages are also passed to backend servers with the encryption stripped away.
 
 
     
