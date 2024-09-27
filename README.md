@@ -228,3 +228,35 @@ A typical load balancer configuration file looks like the following:
         # servers for fulfilling client requests
     listen
         # complete proxy definition
+
+## HTTP
+
+    Although HAProxy can load balance HTTP requests in TCP mode, in which the connections are opaque and the HTTP messages are not inspected or altered, it can also operate in HTTP mode. In HTTP mode, the load balancer can inspect and modify the messages, and perform protocol-specific actions. To enable HTTP mode, set the directive mode http in your frontend and backend section.
+
+    Below, we describe features related to distinct versions of the HTTP protocol.
+
+    HTTP/2 
+    You can load balance HTTP/2 over:
+    
+    encrypted HTTPS when OpenSSL 1.0.2 or newer is available on the server
+    unencrypted HTTP (known as h2c)
+    Most browsers support HTTP/2 over HTTPS only, but you may find it useful to enable h2c between backend services (e.g. gRPC services).
+
+    HTTP/2 over HTTPS to the client 
+    Available since
+    HAProxy 1.8
+    HAProxy Enterprise 1.8r1
+    HAProxy ALOHA 10.0
+    HTTP/2 is enabled by default between clients and load balancer in HAProxy ALOHA 15.5 / HAProxy Enterprise 2.8r1 and up. You do not need to specify the alpn extension, because it has a default value of h2,http/1.1 for HTTPS bind lines. Note that ALPN works only for HTTPS bind lines, and so HTTP/2 requires HTTPS. Clients that lack support for HTTP/2 will be automatically reverted to HTTP/1.1. The load balancer server must have OpenSSL 1.0.2 or newer.
+    
+    frontend www
+      mode http
+      bind :443 ssl crt /path/to/cert.crt
+      default_backend servers
+    
+    For HAProxy ALOHA 15.0 / HAProxy Enterprise 2.7r1 and older, you will need to specify both the extension and protocols:
+
+    frontend www
+      mode http
+      bind :443 ssl crt /path/to/cert.crt alpn h2,http/1.1          ------------> use this **alpn h2,http/1.1 ** to enable http2, so haproxy also support this.   
+      default_backend servers
