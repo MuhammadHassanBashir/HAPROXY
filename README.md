@@ -135,6 +135,36 @@ I’ve separated those addresses with a comma. I could also have written a secon
       use_backend special if { dst_port 81 }
       default_backend myservers
 
+The table below lists examples of other ACLs that you might use to route traffic to different backends. Before you can use some of them, you will need to set mode http in your frontend and backend sections, which allows HAProxy to evaluate HTTP data in a message.
+    
+    ACL
+    
+    Description
+    
+    if { path_beg /api/ }
+    
+    Route API requests.
+    
+    if { path_end .jpg .png }
+    
+    Route requests for images.
+    
+    if { hdr(host) -m dom example.local }
+    
+    Routes requests for the domain example.local.
+    
+    if { src 127.0.0.1/8 }
+    
+    Route requests originating from the given IP address range.
+    
+    if { method POST PUT }
+    
+    Route POST and PUT requests.
+    
+    if { url_param(region) europe }
+    
+    Route requests that have a URL parameter named region that is set to europe.
+
 
 
     
