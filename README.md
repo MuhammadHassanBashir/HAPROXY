@@ -293,7 +293,6 @@ A typical load balancer configuration file looks like the following:
       http-response set-header Access-Control-Allow-Methods "GET, POST, OPTIONS"
       http-response set-header Access-Control-Allow-Headers "Content-Type"
     
-  backend http_back   
+    backend http_back   
                             ---------------------> configuration for backend server                       
-
-  listen
+    listen
