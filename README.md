@@ -73,6 +73,10 @@
    
     Create an NGINX container with any server port on the server where HAProxy is running. Then test the HAProxy configuration. A successful configuration will display the NGINX home page.
 
+## Command to verify haproxy file is correct or not..
+
+    sudo haproxy -c -f /etc/haproxy/haproxy.conf
+
 
 ## HA Proxy features
 
