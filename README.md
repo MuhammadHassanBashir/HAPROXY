@@ -18,7 +18,7 @@
     2- then get vm public ip and go to the project where your domain is hosted. then go to **cloud dns** in case of google cloud and point domain against server ip.. like domain is **haproxy.disearch.ai** on ip **vm ip address**
     3- then install certificate on vm from **letencrypt**. **Remember if your have done the domain mapping step then letencrypt with go to certificate against that set domain**, like this **haproxy.disearch.ai** 
   
-## Installation on vm server
+## now Install ha proxy on vm server
 
      sudo apt install haproxy
      sudo systemctl reload haproxy 
