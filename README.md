@@ -110,7 +110,8 @@ HP Proxy loadbalancing traffic to backend server.
 
 ## ACL 
 
-        Set Rules for Edge Cases
+Set Rules for Edge Cases
+    
     Suppose you wanted to send all requests that arrive on port 80 to servers 1 and 2, but if a request arrives at port 81, it should go to server 3. Consider the following configuration that achieves that:
         
     frontend myfrontend
