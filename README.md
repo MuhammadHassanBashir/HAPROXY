@@ -260,3 +260,39 @@ A typical load balancer configuration file looks like the following:
       mode http
       bind :443 ssl crt /path/to/cert.crt alpn h2,http/1.1          ------------> use this **alpn h2,http/1.1 ** to enable http2, so haproxy also support this.   
       default_backend servers
+
+# Haproxy configuration for my scenerio 
+
+    global
+
+    default
+
+    frontend http_front
+      bind *:443 ssl crt /etc/haproxy/certs/ alpn h2,http/1.1           -------> give here your SSL certificate path, and by using alpn h2,http/1.1 haproxy also support to http2 protocol
+      mode http
+    
+      # DDoS & Rate Limiting                                          -------------->> DDos attack prevention section
+      stick-table type ip size 1m expire 10s store http_req_rate(10s),conn_cur
+      acl abuse src_http_req_rate(http_front) gt 100
+      acl too_many_conns src_conn_cur gt 10
+      http-request deny if abuse
+      tcp-request content reject if too_many_conns
+    
+      # Security Headers (OWASP)
+      http-response set-header X-Frame-Options "DENY"            -------------------->> iframe prevention section           
+      http-response set-header X-Content-Type-Options "nosniff"
+      http-response set-header Strict-Transport-Security "max-age=31536000; includeSubDomains"
+      http-response set-header Referrer-Policy "no-referrer"
+      http-response set-header Content-Security-Policy "default-src 'self'; script-src 'self';"
+      http-response set-header X-XSS-Protection "1; mode=block"
+    
+      # CORS
+      acl is_preflight_options method OPTIONS
+      http-request use-service lua.cors if is_preflight_options
+      http-response set-header Access-Control-Allow-Origin "*"
+      http-response set-header Access-Control-Allow-Methods "GET, POST, OPTIONS"
+      http-response set-header Access-Control-Allow-Headers "Content-Type"
+    
+  default_backend http_back                          ---------------------> configuration for backend server
+
+  listen
