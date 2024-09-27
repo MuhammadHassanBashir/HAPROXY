@@ -68,9 +68,9 @@
     	errorfile 503 /etc/haproxy/errors/503.http
     	errorfile 504 /etc/haproxy/errors/504.http
     
-    frontend https_front
-        bind *:443 ssl crt /etc/ssl/private/haproxy.disearch.ai.pem alpn h2,http/1.1
-        mode http
+    frontend https_front                                                                      ---> giving fronted name here **https_front**       
+        bind *:443 ssl crt /etc/ssl/private/haproxy.disearch.ai.pem alpn h2,http/1.1          ---->fronted is listen on all ip with 443 port, give ssl certificate path and enable http2 protocol
+        mode http                                                                             -----> we have 2 mode http/tcp   use to open traffic packet header and get multiple information like URL, and use this information for traffic routing.
         option forwardfor
         http-request set-header X-Forwarded-Proto: https
         default_backend web_backend
@@ -128,12 +128,11 @@
         acl allowed_host1 hdr(host) -i example.com
         acl allowed_host2 hdr(host) -i example.org
         http-request deny if !allowed_host1 !allowed_host2
+
     
-    
-    
-    backend web_backend
+    backend web_backend                                          --> giving backend name here **web_backend**
         mode http
-        server local_server localhost:8000 check
+        server local_server localhost:8000 check                  ------> testing nginx container is running locally on 8000 port 
 
 # Haproxy configuration for my scenerio 
 
