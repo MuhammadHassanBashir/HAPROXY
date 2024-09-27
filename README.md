@@ -14,9 +14,9 @@
 
 ## Domain point of vm
 
-    1- first create HA proxy vm on cloud and enable http and https port on vm
-    2- then get vm public ip and go to the project where your domain is hosted. then go to **cloud dns** in case of google cloud and point domain against server ip.. like domain is **haproxy.disearch.ai** on ip **vm ip address**
-    3- then install certificate on vm from **letsencrypt**. **Remember if your have done the domain mapping step then letencrypt with go to certificate against that set domain**, like this **haproxy.disearch.ai**. By doing this step letsencrypt will issue a certificate against your domain and send it to your vm. When you send traffic by using this domain from browser, it will first go to where, where domain is hosted and from where to your vm and get certificate from vm..
+     1- First, create an HAProxy VM on the cloud and enable both HTTP and HTTPS ports on the VM.
+     2- Next, obtain the VM's public IP and navigate to the project where your domain is hosted. In Google Cloud, go to Cloud DNS and point the domain to the server's IP, for example, set haproxy.disearch.ai to the VM IP address.
+     3- Then, install the certificate on the VM using Let's Encrypt. Make sure the domain mapping is complete before this step, as Let's Encrypt will issue the certificate for the mapped domain, such as haproxy.disearch.ai. After this, Let's Encrypt will issue a certificate for your domain and send it to your VM. When traffic is sent using the domain from a browser, it will first go to the domain's DNS, then to your VM, and retrieve the certificate from the VM.
   
 ## now Install ha proxy on vm server
 
@@ -263,6 +263,8 @@ A typical load balancer configuration file looks like the following:
 
 # Haproxy configuration for my scenerio 
 
+    File path **/etc/haproxy/haproxy.cfg**
+
     global
 
     default
@@ -296,3 +298,7 @@ A typical load balancer configuration file looks like the following:
     backend http_back   
                             ---------------------> configuration for backend server                       
     listen
+
+## Testing
+   
+    Create an NGINX container with any server port on the server where HAProxy is running. Then test the HAProxy configuration. A successful configuration will display the NGINX home page.
