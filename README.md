@@ -176,5 +176,36 @@ The table below lists examples of other ACLs that you might use to route traffic
     
             The ssl parameter enables SSL termination for this listener. The crt parameter identifies the location of the PEM-formatted SSL certificate. This certificate should contain both the public certificate and the private key. That’s it for turning on this feature. Once traffic is decrypted it can be inspected and modified by HAProxy, such as to alter HTTP headers, route based on the URL path or Host, and read cookies. The messages are also passed to backend servers with the encryption stripped away.
 
+        Although you lose some of the benefits of SSL termination by doing so, if you prefer to re-encrypt the data before relaying it, then you’d simply add an ssl parameter to your server lines in the backend section. Here’s an example:
+        
+        backend web_servers
+            balance roundrobin
+            server server1 10.0.1.3:443 check maxconn 20 ssl
+            server server2 10.0.1.4:443 check maxconn 20 ssl
+      
+        When HAProxy negotiates the connection with the server, it will verify whether it trusts that server’s SSL certificate. If the server is using a certificate that was signed by a private certificate authority, you can either ignore the verification by adding verify none to the server line or you can store the CA certificate on the load balancer and reference it with the ca-file parameter. Here’s an example that references the CA PEM file:
+        
+        backend web_servers
+            balance roundrobin
+            server server1 10.0.1.3:443 check maxconn 20 ssl ca-file /etc/ssl/certs/ca.pem
+            server server2 10.0.1.4:443 check maxconn 20 ssl ca-file /etc/ssl/certs/ca.pem
+       
+        If the certificate is self-signed, in which case it acts as its own CA, then you can reference it directly.
 
+​
+## Redirecting From HTTP to HTTPS
+
+    When a person types your domain name into their address bar, more likely than not, they won’t include https://. So, they’ll be sent to the http:// version of your site. When you use HAProxy for SSL termination, you also get the ability to redirect any traffic that is received at HTTP port 80 to HTTPS port 443.
     
+    Add an http-request redirect scheme line to route traffic from HTTP to HTTPS, like this:
+    
+    frontend www.mysite.com
+        bind 10.0.0.3:80
+        bind 10.0.0.3:443 ssl crt /etc/ssl/certs/mysite.pem
+        http-request redirect scheme https unless { ssl_fc }
+        default_backend web_servers
+    
+    This line uses the unless keyword to check the ssl_fc fetch method, which returns true unless the connection used SSL/TLS. If it wasn’t used, the request is redirected to the https scheme. Now, all traffic will end up using HTTPS.
+    
+    This paves the way to adding an HSTS header, which tells a person’s browser to use HTTPS from the start the next time they visit your site. You can add an HSTS header by following the steps described in our blog post, HAProxy and HTTP Strict Transport Security (HSTS) Header in HTTP Redirects.
+        
