@@ -71,8 +71,8 @@
     frontend https_front                                                                      ---> giving fronted name here **https_front**       
         bind *:443 ssl crt /etc/ssl/private/haproxy.disearch.ai.pem alpn h2,http/1.1          ---->fronted is listen on all ip with 443 port, give ssl certificate path and enable http2 protocol
         mode http                                                                             -----> we have 2 mode http/tcp   use to open traffic packet header and get multiple information like URL, and use this information for traffic routing.
-        option forwardfor
-        http-request set-header X-Forwarded-Proto: https
+        option forwardfor                                                                     ---> This option is used to add the X-Forwarded-For header to HTTP requests. The X-Forwarded-For header is used to track the original client IP address when the request passes through a proxy (like HAProxy).
+        http-request set-header X-Forwarded-Proto: https                                      ----> This directive sets the X-Forwarded-Proto header in the request. The X-Forwarded-Proto header is used to tell the backend server whether the original client used HTTP or HTTPS protocol when making the request.
         default_backend web_backend
     
         # DDoS & Rate Limiting
