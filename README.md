@@ -134,6 +134,9 @@
         mode http
         server local_server localhost:8000 check                  ------> testing nginx container is running locally on 8000 port 
 
+## Save **haproxy.cfg** changes by reloading haproxy service
+
+     sudo systemctl reload haproxy 
 
 ## Command to verify haproxy file is correct or not..
 
