@@ -137,7 +137,7 @@
 
 ## Command to verify haproxy file is correct or not..
 
-    sudo haproxy -c -f /etc/haproxy/haproxy.conf
+    sudo haproxy -c -f /etc/haproxy/haproxy.cfg
 
 ## Testing
    
