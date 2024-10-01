@@ -125,3 +125,16 @@
     However, if you want to perform the same setup within a Docker container using a Dockerfile, you can specify a base image in the FROM directive. For example, by defining FROM haproxy:2.4-bookworm, you leverage the base image, which automatically provides the environment and necessary files without needing to install them manually like you do in your local system.
     
     In addition, you can install any other required packages using the RUN command in the Dockerfile. This allows you to customize the container's environment as needed, all while ensuring that the base image takes care of the core configurations and dependencies.
+
+## VERIFY IF Proxy is working or not
+
+    In my HAProxy configuration file, I specified in the frontend section that HAProxy should listen on all IP addresses using port 80. Consequently, I launched my HAProxy container with the mapping 80:80, which connects port 80 of the host to port 80 of the container, while also ensuring that both containers share the same network.
+    
+    When I execute the command curl localhost:80, the following flow occurs:
+    
+    Traffic Direction: The request is directed to localhost on port 80.
+    Port Mapping: This port maps to the internal container port, which is also 80, where HAProxy is running.
+    Traffic Reception: HAProxy receives the incoming traffic and processes the request.
+    Forwarding to Backend: HAProxy then forwards the request to the backend Nginx server, which is running in a separate container.
+    Response: Finally, HAProxy returns the response received from the Nginx backend to the original requestor.
+    This setup effectively allows HAProxy to manage incoming requests and route them to the appropriate backend service.
